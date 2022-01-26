@@ -1,0 +1,65 @@
+version: '3.9'
+
+services:
+  mysql:
+    platform: linux/amd64
+    image: mysql:8
+    container_name: demoMysqlDb
+    ports:
+      - 3306:3306
+    volumes:
+      - ~/apps/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=user
+      - MYSQL_PASSWORD=user
+      - MYSQL_USER=user123
+      - MYSQL_DATABASE=demodb
+
+  demoapp:
+    container_name: demoapp
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    #    veya sadece build: ./icefirefrontend/icefire
+    image: demoapp123:latest
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+
+
+#version: '3.3'
+#services:
+#  db:
+#    image: mysql:5.7
+#    platform: linux/amd64
+#    restart: always
+#    container_name: barakadb
+#    environment:
+#      MYSQL_DATABASE: 'db'
+#      MYSQL_USER: 'user'
+#      MYSQL_PASSWORD: 'user123'
+#      MYSQL_ROOT_PASSWORD: 'user123'
+#    ports:
+#      - '3306:3306'
+#    expose:
+#      - '3306'
+#    volumes:
+#      - my-db:/var/lib/mysql
+#
+#  walletapp:
+#    container_name: walletapp
+#    platform: linux/amd64
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    image: walletapp:latest
+#    restart: always
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - db
+#volumes:
+#  my-db:
