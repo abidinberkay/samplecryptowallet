@@ -14,6 +14,10 @@ services:
       - MYSQL_PASSWORD=user
       - MYSQL_USER=user123
       - MYSQL_DATABASE=demodb
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
 
   demoapp:
     container_name: demoapp
@@ -21,11 +25,11 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    #    veya sadece build: ./icefirefrontend/icefire
     image: demoapp123:latest
     restart: always
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     ports:
       - "8080:8080"
 
