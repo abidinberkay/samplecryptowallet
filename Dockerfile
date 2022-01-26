@@ -4,10 +4,21 @@ COPY ./pom.xml /usr/app
 RUN cd /usr/app && mvn clean package
 
 FROM eclipse-temurin:17-jdk-alpine
-COPY --from=build ./target/samplecryptowallet-0.0.1-SNAPSHOT.jar /usr/local/lib/samplecryptowallet.jar
+COPY --from=build /usr/app/target/samplecryptowallet-0.0.1-SNAPSHOT.jar /usr/local/lib/samplecryptowallet.jar
 EXPOSE 8080
-#COPY --from=build /usr/app/target/*.jar samplecryptowallet.jar
-ENTRYPOINT ["java","-jar", "-Dspring.profiles.active=DOCKER", "/usr/local/lib/samplecryptowallet.jar"]
+ENTRYPOINT ["java","-jar","/usr/local/lib/samplecryptowallet.jar"]
+
+
+#FROM maven:3.8.4-eclipse-temurin-17 AS build
+#COPY ./src /usr/app/src
+#COPY ./pom.xml /usr/app
+#RUN #cd /usr/app && mvn clean package
+#
+#FROM eclipse-temurin:17-jdk-alpine
+#COPY --from=build ./target/samplecryptowallet-0.0.1-SNAPSHOT.jar /usr/local/lib/samplecryptowallet.jar
+#EXPOSE 8080
+##COPY --from=build /usr/app/target/*.jar samplecryptowallet.jar
+#ENTRYPOINT ["java","-jar", "-Dspring.profiles.active=DOCKER", "/usr/local/lib/samplecryptowallet.jar"]
 
 
 #FROM t2yazilim/remiks-builder:latest

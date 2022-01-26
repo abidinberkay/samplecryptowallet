@@ -11,10 +11,10 @@ class WalletApplicationTests {
     @Autowired
     UserService userService;
 
-	@Test
-	void contextLoads() {
-		System.out.println("sd");
-	}
+//	@Test
+//	void contextLoads() {
+//		System.out.println("sd");
+//	}
 
 //    @Test
 //    void userCreate() {
